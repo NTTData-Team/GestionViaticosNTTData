@@ -14,13 +14,19 @@
     <artifactId>nttdata-viaticos</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <modules>
+        <module>
+            microservices/auth-ms
+        </module>
+    </modules>
+
     <name>nttdata-viaticos</name>
     <url>https://github.com/NTTData-Team/GestionViaticosNTTData</url>
     <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.release>21</maven.compiler.release>
     </properties>
 
 
