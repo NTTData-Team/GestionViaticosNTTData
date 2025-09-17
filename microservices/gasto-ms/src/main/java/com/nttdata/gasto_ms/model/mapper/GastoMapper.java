@@ -45,6 +45,12 @@ public final class GastoMapper {
 
     private static GastoEntity.Categoria parseCategoria(String raw){
         if (raw == null) return null;
-        return GastoEntity.Categoria.valueOf(raw.trim().toUpperCase());
+        try {
+            return GastoEntity.Categoria.valueOf(raw.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(
+                    "Categoria inválida: " + raw + ". Permitidas: TRANSPORTE, ALOJAMIENTO, ALIMENTACION, OTROS");
+        }
     }
+
 }

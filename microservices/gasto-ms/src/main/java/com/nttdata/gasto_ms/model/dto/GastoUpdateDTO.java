@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public record GastoUpdateDTO(
         @NotNull Long viaticoId,
-        @NotBlank String categoria,                 // string para desacoplar del enum
+        @NotBlank String categoria,
         @NotNull LocalDate fecha,
         @NotNull @DecimalMin("0.00") BigDecimal monto,
         @Pattern(regexp = "^[A-Z]{3}$", message = "Moneda debe ser ISO-4217 de 3 letras")

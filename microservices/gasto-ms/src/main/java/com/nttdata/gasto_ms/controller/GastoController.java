@@ -24,28 +24,35 @@ public class GastoController {
     public ResponseEntity<GastoResponseDTO> create(@Valid @RequestBody GastoCreateDTO dto) {
         GastoResponseDTO created = service.create(dto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(created.id()).toUri();
+                .path("/{id}")
+                .buildAndExpand(created.id())
+                .toUri();
+
         return ResponseEntity.created(location).body(created);
     }
 
     @GetMapping("/viatico/{viaticoId}")
-    public List<GastoResponseDTO> listByViatico(@PathVariable Long viaticoId) {
-        return service.listByViatico(viaticoId);
+    public ResponseEntity<List<GastoResponseDTO>> listByViatico(@PathVariable Long viaticoId) {
+        List<GastoResponseDTO> gastos = service.listByViatico(viaticoId);
+        return ResponseEntity.ok(gastos);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GastoResponseDTO> get(@PathVariable Long id) {
-        return ResponseEntity.ok(service.get(id));
+        GastoResponseDTO gasto = service.get(id);
+        return ResponseEntity.ok(gasto);
     }
 
     @PutMapping("/{id}")
-    public GastoResponseDTO update(@PathVariable Long id, @Valid @RequestBody GastoUpdateDTO dto) {
-        return service.update(id, dto);
+    public ResponseEntity<GastoResponseDTO> update(@PathVariable Long id,
+                                                   @Valid @RequestBody GastoUpdateDTO dto) {
+        GastoResponseDTO updated = service.update(id, dto);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+    public ResponseEntity<GastoResponseDTO> delete(@PathVariable Long id) {
+        GastoResponseDTO deleted = service.delete(id); // cambia el service a devolver DTO
+        return ResponseEntity.ok(deleted);
     }
 }

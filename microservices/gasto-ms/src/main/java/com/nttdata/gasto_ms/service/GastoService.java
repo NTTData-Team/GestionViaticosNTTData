@@ -10,6 +10,7 @@ public interface GastoService {
     GastoResponseDTO create(GastoCreateDTO dto);
     List<GastoResponseDTO> listByViatico(Long viaticoId);
     GastoResponseDTO get(Long id);
-    GastoResponseDTO update(Long id, GastoUpdateDTO dto); // <-- cambia a UpdateDTO
-    void delete(Long id);
+    GastoResponseDTO update(Long id, GastoUpdateDTO dto);
+    GastoResponseDTO delete(Long id); // <-- ahora devuelve DTO
 }
+

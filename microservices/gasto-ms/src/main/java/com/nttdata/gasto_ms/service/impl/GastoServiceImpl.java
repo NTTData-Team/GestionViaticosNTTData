@@ -52,8 +52,12 @@ public class GastoServiceImpl implements GastoService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        if (!repo.existsById(id)) throw new GastoNotFoundException(id);
-        repo.deleteById(id);
+    public GastoResponseDTO delete(Long id) {
+        var entity = repo.findById(id)
+                .orElseThrow(() -> new GastoNotFoundException(id));
+        var dto = GastoMapper.toDto(entity);
+        repo.delete(entity);
+        return dto;
     }
+
 }
