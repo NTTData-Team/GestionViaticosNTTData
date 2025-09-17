@@ -18,6 +18,9 @@
         <module>
             microservices/auth-ms
         </module>
+        <module>
+            microservices/gasto-ms
+        </module>
     </modules>
 
     <name>nttdata-viaticos</name>
