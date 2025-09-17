@@ -24,6 +24,7 @@ public class ProjectServiceImpl implements ProjectService {
         if(projectRepository.existsByName(dto.getName()))
             throw new IllegalArgumentException("Ya existe un proyecto con ese nombre");
         ProjectEntity projectEntity = projectMapper.toEntity(dto);
+        projectEntity.setActive(true);
         projectEntity = projectRepository.save(projectEntity);
         return projectMapper.toResponse(projectEntity);
     }

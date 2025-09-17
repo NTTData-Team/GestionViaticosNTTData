@@ -2,6 +2,7 @@ package com.nttdata.empleado_ms.service;
 
 import com.nttdata.empleado_ms.model.dto.EmployeeRequestDTO;
 import com.nttdata.empleado_ms.model.dto.EmployeeResponseDTO;
+import com.nttdata.empleado_ms.model.dto.EmployeeUpdateDTO;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface EmployeeService {
 
     EmployeeResponseDTO findById(Long id);
 
-    EmployeeResponseDTO update(Long id, EmployeeRequestDTO dto);
+    EmployeeResponseDTO update(Long id, EmployeeUpdateDTO dto);
 
     void delete(Long id);
 
