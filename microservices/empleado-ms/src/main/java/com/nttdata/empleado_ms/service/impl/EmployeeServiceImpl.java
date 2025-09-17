@@ -3,6 +3,7 @@ package com.nttdata.empleado_ms.service.impl;
 import com.nttdata.empleado_ms.exception.ResourceNotFoundException;
 import com.nttdata.empleado_ms.model.dto.EmployeeRequestDTO;
 import com.nttdata.empleado_ms.model.dto.EmployeeResponseDTO;
+import com.nttdata.empleado_ms.model.dto.EmployeeUpdateDTO;
 import com.nttdata.empleado_ms.model.entity.AreaEntity;
 import com.nttdata.empleado_ms.model.entity.EmployeeEntity;
 import com.nttdata.empleado_ms.model.entity.ProjectEntity;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public EmployeeResponseDTO update(Long id, EmployeeRequestDTO dto) {
+    public EmployeeResponseDTO update(Long id, EmployeeUpdateDTO dto) {
         EmployeeEntity employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado con id: " + id));
 
@@ -98,8 +100,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         EmployeeEntity employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Empleado no encontrado con id: " + id));
         employee.setActive(false);
-        employeeRepository.save(employee);
+        employee.setDeletedAt(LocalDateTime.now());
+
+        EmployeeEntity updated = employeeRepository.save(employee);
+        employeeMapper.toResponse(updated);
     }
+
 
     @Override
     public boolean existsByDocumentIdentity(String documentIdentity) {

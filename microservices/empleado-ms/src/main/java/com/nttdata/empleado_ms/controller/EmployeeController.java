@@ -2,6 +2,7 @@ package com.nttdata.empleado_ms.controller;
 
 import com.nttdata.empleado_ms.model.dto.EmployeeRequestDTO;
 import com.nttdata.empleado_ms.model.dto.EmployeeResponseDTO;
+import com.nttdata.empleado_ms.model.dto.EmployeeUpdateDTO;
 import com.nttdata.empleado_ms.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping
+@RequestMapping("/api/employees")
 @RequiredArgsConstructor
 @RestController
 public class EmployeeController {
@@ -32,7 +33,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public EmployeeResponseDTO update(@PathVariable Long id, @Valid @RequestBody EmployeeRequestDTO dto) {
+    public EmployeeResponseDTO update(@PathVariable Long id, @Valid @RequestBody EmployeeUpdateDTO dto) {
         return employeeService.update(id, dto);
     }
 
