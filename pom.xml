@@ -21,6 +21,12 @@
         <module>
             microservices/gasto-ms
         </module>
+        <module>
+            microservices/aprobacion-ms
+        </module>
+        <module>
+            microservices/empleado-ms
+        </module>
     </modules>
 
     <name>nttdata-viaticos</name>
