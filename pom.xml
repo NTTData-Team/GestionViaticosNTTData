@@ -33,6 +33,9 @@
         <module>
             microservices/viatico-ms
         </module>
+        <module>
+            microservices/api-gateway
+        </module>
     </modules>
 
     <name>nttdata-viaticos</name>
