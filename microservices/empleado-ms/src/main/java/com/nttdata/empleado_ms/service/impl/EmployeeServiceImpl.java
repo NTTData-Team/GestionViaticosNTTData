@@ -1,9 +1,8 @@
 package com.nttdata.empleado_ms.service.impl;
 
+import com.nttdata.empleado_ms.client.AuthClient;
 import com.nttdata.empleado_ms.exception.ResourceNotFoundException;
-import com.nttdata.empleado_ms.model.dto.EmployeeRequestDTO;
-import com.nttdata.empleado_ms.model.dto.EmployeeResponseDTO;
-import com.nttdata.empleado_ms.model.dto.EmployeeUpdateDTO;
+import com.nttdata.empleado_ms.model.dto.*;
 import com.nttdata.empleado_ms.model.entity.AreaEntity;
 import com.nttdata.empleado_ms.model.entity.EmployeeEntity;
 import com.nttdata.empleado_ms.model.entity.ProjectEntity;
@@ -26,6 +25,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final ProjectRepository projectRepository;
+    private final AuthClient authClient;
     private final AreaRepository areaRepository;
     private final EmployeeMapper employeeMapper;
 
@@ -38,6 +38,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(employeeRepository.existsByDocumentIdentity(dto.getDocumentIdentity()))
             throw new IllegalArgumentException("Ya existe un empleado con ese documento");
 
+        UserRequestDTO userDto = new UserRequestDTO();
+        userDto.setFirstName(dto.getFirstName());
+        userDto.setLastName(dto.getLastName());
+        userDto.setEmail(dto.getEmail());
+        userDto.setPassword(dto.getPassword());
+        userDto.setRoleId(dto.getRoleId());
+
+        ApiResponse<UserResponseDTO> userResponse = authClient.createUser(userDto);
+
+        UserResponseDTO createdUser = userResponse.getData();
+
         ProjectEntity project = projectRepository.findById(dto.getProjectId())
                 .orElseThrow(() -> new ResourceNotFoundException("Proyecto no encontrado con id: " + dto.getProjectId()));
 
@@ -45,6 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Área no encontrada con id: " + dto.getAreaId()));
 
         EmployeeEntity employee = employeeMapper.toEntity(dto);
+        employee.setUserId(createdUser.getId());
         employee.setProject(project);
         employee.setArea(area);
         employee.setActive(true);
