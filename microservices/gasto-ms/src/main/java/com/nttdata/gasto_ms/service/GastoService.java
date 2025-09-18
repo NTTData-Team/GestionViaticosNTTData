@@ -11,6 +11,6 @@ public interface GastoService {
     List<GastoResponseDTO> listByViatico(Long viaticoId);
     GastoResponseDTO get(Long id);
     GastoResponseDTO update(Long id, GastoUpdateDTO dto);
-    GastoResponseDTO delete(Long id); // <-- ahora devuelve DTO
+    GastoResponseDTO delete(Long id);
 }
 
