@@ -27,6 +27,9 @@
         <module>
             microservices/empleado-ms
         </module>
+        <module>
+            microservices/eureka-server
+        </module>
     </modules>
 
     <name>nttdata-viaticos</name>
@@ -36,6 +39,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
+        <spring-cloud.version>2025.0.0</spring-cloud.version>
     </properties>
 
 
@@ -46,7 +50,17 @@
             <version>1.18.38</version>
         </dependency>
     </dependencies>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <pluginManagement>
             <plugins>

@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="auth-ms" />
         <module name="aprobacion-ms" />
+        <module name="eureka-server" />
         <module name="gasto-ms" />
       </profile>
       <profile name="Annotation profile for nttdata-viaticos" enabled="true">
@@ -29,6 +30,7 @@
       <module name="aprobacion-ms" options="-parameters" />
       <module name="auth-ms" options="-parameters" />
       <module name="empleado-ms" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
       <module name="gasto-ms" options="-parameters" />
     </option>
   </component>
