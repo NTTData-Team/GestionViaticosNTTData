@@ -6,6 +6,7 @@
     <file url="file://$PROJECT_DIR$/microservices/empleado-ms/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microservices/eureka-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/microservices/gasto-ms/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservices/viatico-ms/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

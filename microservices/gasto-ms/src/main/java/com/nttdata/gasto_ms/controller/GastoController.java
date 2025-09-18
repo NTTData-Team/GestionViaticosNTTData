@@ -1,5 +1,6 @@
 package com.nttdata.gasto_ms.controller;
 
+import com.nttdata.gasto_ms.model.dto.GastoBatchCreateDTO;
 import com.nttdata.gasto_ms.model.dto.GastoCreateDTO;
 import com.nttdata.gasto_ms.model.dto.GastoResponseDTO;
 import com.nttdata.gasto_ms.model.dto.GastoUpdateDTO;
@@ -30,7 +31,11 @@ public class GastoController {
 
         return ResponseEntity.created(location).body(created);
     }
-
+    @PostMapping("/viatico/{viaticoId}/batch")
+    public ResponseEntity<List<GastoResponseDTO>> createBatch(@PathVariable Long viaticoId, @Valid @RequestBody GastoBatchCreateDTO dto) {
+        var list = service.createBatch(viaticoId, dto.items());
+        return ResponseEntity.status(HttpStatus.CREATED).body(list);
+    }
     @GetMapping("/viatico/{viaticoId}")
     public ResponseEntity<List<GastoResponseDTO>> listByViatico(@PathVariable Long viaticoId) {
         List<GastoResponseDTO> gastos = service.listByViatico(viaticoId);

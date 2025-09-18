@@ -7,8 +7,10 @@ import lombok.Setter;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "aprobaciones")
-@Getter @Setter
+@Table(
+        name = "aprobaciones",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"viatico_id","nivel"})
+)@Getter @Setter
 public class AprobacionEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

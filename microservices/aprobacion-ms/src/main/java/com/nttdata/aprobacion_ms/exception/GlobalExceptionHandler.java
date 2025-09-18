@@ -29,7 +29,18 @@ public class GlobalExceptionHandler {
                 "APROBACION_NOT_FOUND",
                 "urn:problem:aprobacion-not-found");
     }
-
+    @ExceptionHandler(DuplicateApprovalException.class)
+    public ResponseEntity<ProblemDetail> handleDup(DuplicateApprovalException ex, HttpServletRequest req) {
+        var pd = ProblemDetailsUtils.of(
+                HttpStatus.CONFLICT,
+                "Aprobación duplicada",
+                ex.getMessage(),
+                req,
+                "DUPLICATE_APPROVAL",
+                "urn:problem:duplicate-approval"
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(pd);
+    }
     @ExceptionHandler(InvalidDecisionException.class)
     public ResponseEntity<ProblemDetail> invalidDecision(InvalidDecisionException ex, HttpServletRequest req) {
         var pd = of(HttpStatus.CONFLICT,

@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     public ProblemDetail notFound(GastoNotFoundException ex, HttpServletRequest req) {
         var pd = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         pd.setTitle("Gasto no encontrado");
-        pd.setType(URI.create("urn:problem:gasto-not-found")); // o https://tu.api/errors/gasto-not-found
+        pd.setType(URI.create("urn:problem:gasto-not-found"));
         pd.setInstance(URI.create(req.getRequestURI()));
         pd.setProperty("code", "GASTO_NOT_FOUND");
         return pd;
@@ -42,6 +42,15 @@ public class GlobalExceptionHandler {
         pd.setInstance(URI.create(req.getRequestURI()));
         pd.setProperty("code", "BAD_REQUEST");
         return ResponseEntity.badRequest().body(pd);
+    }
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<ProblemDetail> onBusiness(BusinessRuleException ex, HttpServletRequest req) {
+        var pd = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        pd.setTitle("Regla de negocio");
+        pd.setDetail(ex.getMessage());
+        pd.setInstance(URI.create(req.getRequestURI()));
+        pd.setType(URI.create("urn:problem:business-rule"));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(pd);
     }
 }
 

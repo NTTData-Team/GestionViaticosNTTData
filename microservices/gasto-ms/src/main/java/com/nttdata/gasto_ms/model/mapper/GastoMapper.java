@@ -1,6 +1,7 @@
 package com.nttdata.gasto_ms.model.mapper;
 
 import com.nttdata.gasto_ms.model.dto.GastoCreateDTO;
+import com.nttdata.gasto_ms.model.dto.GastoItemCreateDTO;
 import com.nttdata.gasto_ms.model.dto.GastoResponseDTO;
 import com.nttdata.gasto_ms.model.dto.GastoUpdateDTO;
 import com.nttdata.gasto_ms.model.entity.GastoEntity;
@@ -29,7 +30,16 @@ public final class GastoMapper {
         target.setComprobanteUrl(dto.comprobanteUrl());
         return target;
     }
-
+    public static GastoEntity toEntity(Long viaticoId, GastoItemCreateDTO dto, GastoEntity target) {
+        target.setViaticoId(viaticoId);
+        target.setCategoria(parseCategoria(dto.categoria()));
+        target.setFecha(dto.fecha());
+        target.setMonto(dto.monto());
+        target.setMoneda(dto.moneda() != null ? dto.moneda() : "PEN");
+        target.setDescripcion(dto.descripcion());
+        target.setComprobanteUrl(dto.comprobanteUrl());
+        return target;
+    }
     public static GastoResponseDTO toDto(GastoEntity e) {
         return new GastoResponseDTO(
                 e.getId(),
