@@ -8,4 +8,6 @@ import java.util.List;
 public interface AprobacionRepository extends JpaRepository<AprobacionEntity, Long> {
     List<AprobacionEntity> findByViaticoId(Long viaticoId);
     List<AprobacionEntity> findByEstadoAndAprobadorId(AprobacionEntity.Estado estado, Long aprobadorId);
+    boolean existsByViaticoIdAndNivel(Long viaticoId, Integer nivel);
+
 }

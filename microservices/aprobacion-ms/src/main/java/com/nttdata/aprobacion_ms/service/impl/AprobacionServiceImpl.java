@@ -1,6 +1,9 @@
 package com.nttdata.aprobacion_ms.service.impl;
 
+import com.nttdata.aprobacion_ms.client.ViaticoClient;
+import com.nttdata.aprobacion_ms.client.dto.ViaticoEstadoUpdateDTO;
 import com.nttdata.aprobacion_ms.exception.AprobacionNotFoundException;
+import com.nttdata.aprobacion_ms.exception.DuplicateApprovalException;
 import com.nttdata.aprobacion_ms.exception.InvalidDecisionException;
 import com.nttdata.aprobacion_ms.model.dto.*;
 import com.nttdata.aprobacion_ms.model.entity.AprobacionEntity;
@@ -20,11 +23,14 @@ import java.util.List;
 public class AprobacionServiceImpl implements AprobacionService {
 
     private final AprobacionRepository repo;
-
+    private final ViaticoClient viaticoClient;
     @Override
     @Transactional
     public AprobacionResponseDTO create(AprobacionCreateDTO dto) {
         log.debug("Creando aprobación viaticoId={} nivel={}", dto.viaticoId(), dto.nivel());
+        if (repo.existsByViaticoIdAndNivel(dto.viaticoId(), dto.nivel() != null ? dto.nivel() : 1)) {
+            throw new DuplicateApprovalException(dto.viaticoId(), dto.nivel() != null ? dto.nivel() : 1);
+        }
         var entity = AprobacionMapper.toEntity(dto, new AprobacionEntity());
         return AprobacionMapper.toDto(repo.save(entity));
     }
@@ -56,11 +62,20 @@ public class AprobacionServiceImpl implements AprobacionService {
         if (e.getEstado() != AprobacionEntity.Estado.PENDIENTE) {
             throw new InvalidDecisionException("Solo se puede aprobar cuando el estado es PENDIENTE");
         }
+
         e.setEstado(AprobacionEntity.Estado.APROBADO);
         e.setAprobadorId(dto.aprobadorId());
         e.setComentario(dto.comentario());
         e.setDecididoEn(OffsetDateTime.now());
-        return AprobacionMapper.toDto(repo.save(e));
+        e = repo.save(e);
+
+        try {
+            viaticoClient.updateEstado(e.getViaticoId(), new ViaticoEstadoUpdateDTO("APROBADO"));
+        } catch (Exception ex) {
+            log.error("No se pudo notificar a viatico-ms para viaticoId={} -> APROBADO", e.getViaticoId(), ex);
+        }
+
+        return AprobacionMapper.toDto(e);
     }
 
     @Override
@@ -74,6 +89,13 @@ public class AprobacionServiceImpl implements AprobacionService {
         e.setAprobadorId(dto.aprobadorId());
         e.setComentario(dto.comentario());
         e.setDecididoEn(OffsetDateTime.now());
-        return AprobacionMapper.toDto(repo.save(e));
+        e = repo.save(e);
+        try {
+            viaticoClient.updateEstado(e.getViaticoId(), new ViaticoEstadoUpdateDTO("RECHAZADO"));
+        } catch (Exception ex) {
+            log.error("No se pudo notificar a viatico-ms para viaticoId={} -> RECHAZADO", e.getViaticoId(), ex);
+        }
+
+        return AprobacionMapper.toDto(e);
     }
 }
