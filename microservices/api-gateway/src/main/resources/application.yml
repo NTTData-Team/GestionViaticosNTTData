@@ -1,0 +1,36 @@
+application:
+  name: api-gateway
+
+jwt:
+  secret: dGhpc19pcy1hLXN1cGVyLXNlY3JldC1rZXktZm9yLWp3dC1hdXRo
+
+security:
+  rules:
+    - path: /empleados/**
+      roles: [ROLE_ADMIN]
+    - path: /gastos/**
+      roles: [ROLE_ADMIN, ROLE_USER]
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: empleado-ms
+          uri: http://localhost:8082
+          predicates:
+            - Path=/empleados/**
+          filters:
+            - StripPrefix=1
+        - id: gastos-ms
+          uri: http://localhost:8083
+          predicates:
+            - Path=/gastos/**
+          filters:
+            - StripPrefix=1
+
+        - id: auth-ms
+          uri: http://localhost:8081
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
