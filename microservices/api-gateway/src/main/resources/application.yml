@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: auth-ms
+              uri: http://localhost:8081
+              predicates:
+                - Path=/auth/**
+            - id: empleado-ms
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/projects/**, /api/areas/**, /api/employees/**
+            - id: area-ms
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/areas/**
+
+            - id: gasto-ms
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/gastos/**
+
+            - id: viatico-ms
+              uri: http://localhost:8085
+              predicates:
+                - Path=/api/viaticos/**
+
+            - id: aprobacion-ms
+              uri: http://localhost:8086
+              predicates:
+                - Path=/api/aprobaciones/**
+
+jwt:
+  secret: dGhpc19pcy1hLXN1cGVyLXNlY3JldC1rZXktZm9yLWp3dC1hdXRo
+
+security:
+  rules:
+    - path: /auth/**
+      roles: []
+    - path: /api/projects/**
+      roles: [ROLE_ADMIN]
+    - path: /api/employees/**
+      roles: [ROLE_ADMIN]
+    - path: /api/areas/**
+      roles: [ROLE_ADMIN]
+    - path: /api/gastos/**
+      roles: [ROLE_ADMIN, ROLE_USER]
+    - path: /api/viaticos/**
+      roles: [ROLE_ADMIN, ROLE_USER]
+    - path: /api/aprobaciones/**
+      roles: [ROLE_ADMIN]
+
+server:
+  port: 8080
