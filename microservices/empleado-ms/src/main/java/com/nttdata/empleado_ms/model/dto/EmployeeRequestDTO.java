@@ -1,9 +1,6 @@
 package com.nttdata.empleado_ms.model.dto;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,9 +11,22 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class EmployeeRequestDTO {
-    @NotNull
-    @Min(value = 1, message = "El id del usuario tiene que ser válido")
-    private Long userId;
+
+    @NotBlank(message = "El nombre es obligatorio")
+    private String firstName;
+
+    @NotBlank(message = "El apellido es obligatorio")
+    private String lastName;
+
+    @Email(message = "Email inválido")
+    @NotBlank(message = "Email obligatorio")
+    private String email;
+
+    @NotBlank(message = "La contraseña es obligatoria")
+    private String password;
+
+    @NotNull(message = "El rol es obligatorio")
+    private Long roleId;
 
     @NotBlank(message = "El código de empleado es obligatorio")
     private String codeEmployee;
