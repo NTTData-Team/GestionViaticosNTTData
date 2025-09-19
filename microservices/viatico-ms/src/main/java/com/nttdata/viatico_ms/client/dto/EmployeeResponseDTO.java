@@ -1,5 +1,7 @@
 package com.nttdata.viatico_ms.client.dto;
 
+import java.time.LocalDateTime;
+
 public record EmployeeResponseDTO(
         Long id,
         Long userId,
@@ -8,5 +10,9 @@ public record EmployeeResponseDTO(
         String documentIdentity,
         String phone,
         String address,
-        Boolean active
+        Boolean active,
+        Long areaId,
+        String areaName,
+        Long projectId,
+        String projectName
 ) {}

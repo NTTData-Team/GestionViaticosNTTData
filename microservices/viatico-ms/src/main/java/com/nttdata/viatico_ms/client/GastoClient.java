@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "gasto-ms", contextId = "GastoClient")
+@FeignClient(name = "gasto-ms")
 public interface GastoClient {
     @GetMapping("/api/gastos/viatico/{viaticoId}")
     List<GastoResponseDTO> listByViatico(@PathVariable("viaticoId") Long viaticoId);

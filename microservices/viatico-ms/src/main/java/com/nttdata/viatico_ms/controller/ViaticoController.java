@@ -1,6 +1,5 @@
 package com.nttdata.viatico_ms.controller;
 
-import com.nttdata.viatico_ms.model.dto.ViaticoCreateDTO;
 import com.nttdata.viatico_ms.model.dto.ViaticoCreateWithGastosDTO;
 import com.nttdata.viatico_ms.model.dto.ViaticoEstadoUpdateDTO;
 import com.nttdata.viatico_ms.model.dto.ViaticoResponseDTO;
@@ -10,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 
 @RestController
 @RequestMapping("/api/viaticos")

@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "aprobacion-ms", contextId = "AprobacionClient")
+@FeignClient(name = "aprobacion-ms")
 public interface AprobacionClient {
 
     @PostMapping("/api/aprobaciones")

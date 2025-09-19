@@ -3,9 +3,7 @@ package com.nttdata.viatico_ms.service.impl;
 import com.nttdata.viatico_ms.client.AprobacionClient;
 import com.nttdata.viatico_ms.client.EmpleadoClient;
 import com.nttdata.viatico_ms.client.GastoClient;
-import com.nttdata.viatico_ms.client.dto.AprobacionCreateDTO;
-import com.nttdata.viatico_ms.client.dto.GastoBatchCreateDTO;
-import com.nttdata.viatico_ms.client.dto.GastoItemCreateDTO;
+import com.nttdata.viatico_ms.client.dto.*;
 import com.nttdata.viatico_ms.exception.ReferenceNotFoundException;
 import com.nttdata.viatico_ms.exception.ViaticoNotFoundException;
 import com.nttdata.viatico_ms.model.dto.ViaticoCreateDTO;
@@ -36,23 +34,17 @@ public class ViaticoServiceImpl implements ViaticoService {
     @Override
     @Transactional
     public ViaticoResponseDTO create(ViaticoCreateWithGastosDTO dto) {
-        try {
-            empleadoClient.getEmployee(dto.empleadoId());
-        } catch (FeignException.NotFound nf) {
+        var empleado = empleadoClient.getEmployee(dto.empleadoId());
+        if (empleado == null || empleado.getData() == null) {
             throw new ReferenceNotFoundException("Empleado", dto.empleadoId());
-        } catch (FeignException ex) {
-            throw ex;
         }
-        try {
-            empleadoClient.getProject(dto.proyectoId());
-        } catch (FeignException.NotFound nf) {
+        var proyecto = empleadoClient.getProject(dto.proyectoId());
+        if (proyecto == null || proyecto.getData() == null) {
             throw new ReferenceNotFoundException("Proyecto", dto.proyectoId());
-        } catch (FeignException ex) {
-            throw ex;
         }
         var entity = ViaticoMapper.toEntity(
                 new ViaticoCreateDTO(
-                        dto.empleadoId(), dto.proyectoId(), dto.fechaInicio(), dto.fechaFin(),
+                        empleado.getData().id(), proyecto.getData().id(), dto.fechaInicio(), dto.fechaFin(),
                         dto.destino(), dto.montoEstimado(), dto.moneda(), dto.motivo()
                 ),
                 new ViaticoEntity()

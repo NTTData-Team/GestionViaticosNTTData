@@ -14,25 +14,18 @@ spring:
               uri: http://localhost:8082
               predicates:
                 - Path=/api/projects/**, /api/areas/**, /api/employees/**
-            - id: area-ms
+            - id: viatico-ms
               uri: http://localhost:8083
               predicates:
-                - Path=/api/areas/**
-
-            - id: gasto-ms
-              uri: http://localhost:8084
-              predicates:
-                - Path=/api/gastos/**
-
-            - id: viatico-ms
-              uri: http://localhost:8085
-              predicates:
                 - Path=/api/viaticos/**
-
             - id: aprobacion-ms
               uri: http://localhost:8086
               predicates:
                 - Path=/api/aprobaciones/**
+            - id: gasto-ms
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/gastos/**
 
 jwt:
   secret: dGhpc19pcy1hLXN1cGVyLXNlY3JldC1rZXktZm9yLWp3dC1hdXRo
@@ -40,19 +33,19 @@ jwt:
 security:
   rules:
     - path: /auth/**
-      roles: []
+      roles: [ ]
     - path: /api/projects/**
-      roles: [ROLE_ADMIN]
+      roles: [ ROLE_ADMIN ]
     - path: /api/employees/**
-      roles: [ROLE_ADMIN]
+      roles: [ ROLE_ADMIN ]
     - path: /api/areas/**
-      roles: [ROLE_ADMIN]
+      roles: [ ROLE_ADMIN ]
     - path: /api/gastos/**
-      roles: [ROLE_ADMIN, ROLE_USER]
+      roles: [ ROLE_ADMIN, ROLE_USER ]
     - path: /api/viaticos/**
-      roles: [ROLE_ADMIN, ROLE_USER]
+      roles: [ ROLE_ADMIN, ROLE_USER ]
     - path: /api/aprobaciones/**
-      roles: [ROLE_ADMIN]
+      roles: [ ROLE_ADMIN ]
 
 server:
   port: 8080
