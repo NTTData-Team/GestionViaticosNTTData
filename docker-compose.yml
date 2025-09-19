@@ -1,0 +1,133 @@
+version: '3.9'
+services:
+  # Infraestructura
+  eureka-server:
+    build: ./microservices/eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+
+  api-gateway:
+    build: ./microservices/api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+
+  # ===================== MICROSERVICIOS =====================
+  auth-ms:
+    build: ./microservices/auth-ms
+    container_name: auth-ms
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://auth-db:5432/authdb
+      - SPRING_DATASOURCE_USERNAME=authuser
+      - SPRING_DATASOURCE_PASSWORD=authpass
+    depends_on:
+      - eureka-server
+      - auth-db
+
+  empleado-ms:
+    build: ./microservices/empleado-ms
+    container_name: empleado-ms
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://empleado-db:5432/empleadodb
+      - SPRING_DATASOURCE_USERNAME=empleadouser
+      - SPRING_DATASOURCE_PASSWORD=empleadopass
+    depends_on:
+      - eureka-server
+      - empleado-db
+
+  viatico-ms:
+    build: ./microservices/viatico-ms
+    container_name: viatico-ms
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://viatico-db:5432/viaticodb
+      - SPRING_DATASOURCE_USERNAME=viaticouser
+      - SPRING_DATASOURCE_PASSWORD=viaticopass
+    depends_on:
+      - eureka-server
+      - viatico-db
+
+  aprobacion-ms:
+    build: ./microservices/aprobacion-ms
+    container_name: aprobacion-ms
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://aprobacion-db:5432/aprobaciondb
+      - SPRING_DATASOURCE_USERNAME=aprobacionuser
+      - SPRING_DATASOURCE_PASSWORD=aprobacionpass
+    depends_on:
+      - eureka-server
+      - aprobacion-db
+
+  gasto-ms:
+    build: ./microservices/gasto-ms
+    container_name: gasto-ms
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://gasto-db:5432/gastodb
+      - SPRING_DATASOURCE_USERNAME=gastouser
+      - SPRING_DATASOURCE_PASSWORD=gastopass
+    depends_on:
+      - eureka-server
+      - gasto-db
+
+  # ===================== BASES DE DATOS =====================
+  auth-db:
+    image: postgres:15
+    container_name: auth-db
+    environment:
+      - POSTGRES_DB=authdb
+      - POSTGRES_USER=authuser
+      - POSTGRES_PASSWORD=authpass
+    ports:
+      - "5433:5432"
+
+  empleado-db:
+    image: postgres:15
+    container_name: empleado-db
+    environment:
+      - POSTGRES_DB=empleadodb
+      - POSTGRES_USER=empleadouser
+      - POSTGRES_PASSWORD=empleadopass
+    ports:
+      - "5434:5432"
+
+  viatico-db:
+    image: postgres:15
+    container_name: viatico-db
+    environment:
+      - POSTGRES_DB=viaticodb
+      - POSTGRES_USER=viaticouser
+      - POSTGRES_PASSWORD=viaticopass
+    ports:
+      - "5435:5432"
+
+  aprobacion-db:
+    image: postgres:15
+    container_name: aprobacion-db
+    environment:
+      - POSTGRES_DB=aprobaciondb
+      - POSTGRES_USER=aprobacionuser
+      - POSTGRES_PASSWORD=aprobacionpass
+    ports:
+      - "5436:5432"
+
+  gasto-db:
+    image: postgres:15
+    container_name: gasto-db
+    environment:
+      - POSTGRES_DB=gastodb
+      - POSTGRES_USER=gastouser
+      - POSTGRES_PASSWORD=gastopass
+    ports:
+      - "5437:5432"
