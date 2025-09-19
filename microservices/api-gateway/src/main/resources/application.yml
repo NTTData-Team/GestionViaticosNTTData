@@ -7,23 +7,23 @@ spring:
         webflux:
           routes:
             - id: auth-ms
-              uri: http://localhost:8081
+              uri: http://auth-ms:8081
               predicates:
                 - Path=/auth/**
             - id: empleado-ms
-              uri: http://localhost:8082
+              uri: http://empleado-ms:8082
               predicates:
                 - Path=/api/projects/**, /api/areas/**, /api/employees/**
             - id: viatico-ms
-              uri: http://localhost:8083
+              uri: http://viatico-ms:8083
               predicates:
                 - Path=/api/viaticos/**
             - id: aprobacion-ms
-              uri: http://localhost:8086
+              uri: http://aprobacion-ms:8084
               predicates:
                 - Path=/api/aprobaciones/**
             - id: gasto-ms
-              uri: http://localhost:8084
+              uri: http://gasto-ms:8085
               predicates:
                 - Path=/api/gastos/**
 
