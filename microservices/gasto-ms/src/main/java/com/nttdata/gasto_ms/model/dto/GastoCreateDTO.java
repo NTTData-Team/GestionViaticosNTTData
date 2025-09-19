@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public record GastoCreateDTO(
         @NotNull Long viaticoId,
-        @NotBlank String categoria,          // desacoplado de la enum de la entity
+        @NotBlank String categoria,
         @NotNull LocalDate fecha,
         @NotNull @DecimalMin("0.00") BigDecimal monto,
         @Pattern(regexp = "^[A-Z]{3}$", message = "Moneda debe ser ISO-4217 de 3 letras")
