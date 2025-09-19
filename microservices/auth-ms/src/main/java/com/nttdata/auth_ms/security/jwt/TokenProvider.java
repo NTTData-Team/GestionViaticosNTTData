@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class TokenProvider {
     @Value("${jwt.secret}")
     private String jwtSecret;
