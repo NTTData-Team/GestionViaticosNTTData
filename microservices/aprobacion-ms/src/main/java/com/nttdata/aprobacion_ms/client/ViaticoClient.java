@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "viatico-ms", contextId = "ViaticoClient")
 public interface ViaticoClient {
 
-    @PatchMapping("/internal/viaticos/{id}/estado")
+    @PatchMapping("/api/viaticos/{id}/estado")
     ViaticoResponseDTO updateEstado(@PathVariable("id") Long id,
                                     @RequestBody ViaticoEstadoUpdateDTO dto);
 }
